@@ -1,0 +1,9 @@
+1 user selects cb file
+2 parse selected cb file for unit number, hours, current date, alarm codes that themselves have to be parsed (only 
+can have 4 spots so need to make it follow the templates I have, if and else statements would be perfect to organize
+them into prioity list.), any other important info that is specific to the unit.
+3 add user input fields for wo number, tech name
+4 convert data fields to csv form that can be uploaded to excel template.
+5 autofil excel and open/close spreadsheets
+5convert to pdf and store in a new folder
+ 

@@ -1,0 +1,1 @@
+@py.exe C:\Python36\Doc\mypythonscripts\learnin.py
