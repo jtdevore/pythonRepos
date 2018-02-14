@@ -1,3 +1,6 @@
+#! python3
+#This program is first attempt at python project
+#This program is meant to automate the billing process which currently involves hand writing/typing all data points
 import xml.etree.ElementTree as ET
 import tkinter
 from tkinter import *
@@ -7,7 +10,7 @@ import win32com.client as win32
 import time
 import os
 
-#TODO make name match wo number as input by user
+
 #TODO make customerCell and locationCell and nameCell, signatureCell not have to be entered every time.  Some way for it to hold the data unless changed by user.
 
 #User selects file to parse
@@ -51,7 +54,7 @@ laborCell = tkinter.simpledialog.askstring("Enter labor hours", "Enter labor hou
 print (laborCell)
 master.withdraw()
 
-dateCell = time.strftime("%d/%m/%Y")
+dateCell = time.strftime("%Y/%m/%d")
 
 alarmOptions = ['Unit out of fuel','EWN FC Lockout','Estop','FC stack frozen','UI can-bus failure']
 
@@ -77,34 +80,34 @@ except NameError:
     print (alarmTime)
     
 
-occuredCell = alarmTime #TODO make alarmTime = optionmenu selection occured time
+occuredCell = alarmTime #TODO make alarmTime = alarm from optionmenu selection the occured time
 partsCostCell = None #TODO make this total all parts cost
 fillableform_for_parts = None #TODO figure out how to make a fillable form for all parts entered
 
-# Look to the path of your current working directory
-working_directory = os.getcwd()
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 # this script updates excel cells.
 excel = win32.gencache.EnsureDispatch('Excel.Application')
 #Change this location to match the file template name as long as same folder. IE. E-stop.xlxs
 selection = variable.get()
 if selection == 'Out of fuel':
-    wb = excel.Workbooks.Open(working_directory + '\\testcb.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'oof'))
 if selection == 'Dead battery from misuse':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb1.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'misuse'))
 if selection == 'E-stop':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb2.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'estop'))
 if selection == 'Frozen':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb3.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'frozen'))
 if selection == 'Damage':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb4.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'damage'))
 if selection == 'E-brake unplugged':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb5.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'ebrake'))
 if selection == 'OI unplugged':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb6.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'ui'))
 if selection == 'Other':
-    wb = excel.Workbooks.Open('C:\\Users\\jtdev\\Desktop\\testcb7.xlsx')  
-# wb = excel.Workbooks.Open(r'C:\myfiles\excel\workbook2.xlsx')
+    wb = excel.Workbooks.Open(os.path.join(__location__, 'damage'))  
+
 ws = wb.Worksheets('Copy1')
 
 excel.Visible = False
@@ -123,16 +126,13 @@ ws.Cells(31, 17).Value = partsCostCell
 ws.Cells(32, 15).Value = None # laborCell + partsCostCell
 #todo add all the cells for the parts consumed form
 
-#TODO make saveas a variable location in gui.savefile funtion
-saveFile = filedialog.asksaveasfilename(filetypes=(("Excel files", "*.xlsx"),
-                                        ("All files", "*.*") ))
-
-
-
-print (saveFile)
-wb.SaveAs(saveFile)
+#Savefile GUI and saving excel file
+saveFile = filedialog.asksaveasfilename(filetypes=(("Excel files", "*.xlsx"),("All files", "*.*") ))
+saveFileNoSlash = os.path.normpath(saveFile)
+wb.SaveAs(saveFileNoSlash)
 
 excel.Application.Quit()
 
 master.mainloop()
 exit()
+
