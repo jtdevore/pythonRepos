@@ -23,7 +23,7 @@ root = tree.getroot()
 woCell = tkinter.simpledialog.askstring("Enter WO #", "Enter WO Number") #Stores work order number
 print ('Work Order #: ' + woCell)
                
-#Stores user input variable truckCell for later use
+#Stores user input variable for later use
 truckCell = tkinter.simpledialog.askstring("Enter Truck  Number", "Enter Truck number")
 print ('Truck #: ' + truckCell)
      
@@ -53,7 +53,7 @@ button = Button(master, text="OK", command=ok)
 button.pack()
 master.wait_window(button)
 
-
+master.mainloop()
 
 dateCell = time.strftime("%Y/%m/%d")
 
@@ -134,6 +134,5 @@ wb.SaveAs(saveFileNoSlash)
 
 excel.Application.Quit()
 
-master.mainloop()
 sys.exit()
 

@@ -21,39 +21,37 @@ tree = ET.parse(master.filename)#this is where the file location to be parsed go
 root = tree.getroot()
          
 woCell = tkinter.simpledialog.askstring("Enter WO #", "Enter WO Number") #Stores work order number
-print ('Work Order #: ' + woCell)
+print (woCell)
                
 #Stores user input variable truckCell for later use
 truckCell = tkinter.simpledialog.askstring("Enter Truck  Number", "Enter Truck number")
-print ('Truck #: ' + truckCell)
+print (truckCell)
      
 repairSdate = tkinter.simpledialog.askstring("Enter Repair Start Time", "Enter Repair Start Time\nFormat yyyy-mm-dd hh:mm")
-print ('Start Time: ' + repairSdate)
+print (repairSdate)
 
 repairCdate = tkinter.simpledialog.askstring("Enter Repair completed Time", "Enter Repair completed Time\nFormat yyyy-mm-dd hh:mm")
-print ('Completed Time: ' + repairCdate)
+print (repairCdate)
 
 laborCell = tkinter.simpledialog.askstring("Enter labor hours", "Enter labor hours")
-print ('Labor Hours: ' +laborCell)
+print (laborCell)
 
 #this is a gui for user to select which template to use and variable selected will be used to open an existing excel template that will be included in program folder.
 
 variable = StringVar(master)
-variable.set('Select the main fault for billable event') # default value
+variable.set("Select the main fault for billable event") # default value
 w = OptionMenu(master, variable, 'Out of fuel', 'Dead battery from misuse', 'E-stop', 'Frozen', 'Damage', 'E-brake unplugged', 'OI unplugged', 'Other')
 w.pack()
 
 def ok():
-    if variable.get() != 'Select the main fault for billable event':
-        print ('Billable event due to ' +  variable.get()) #gui button.
-        master.destroy()
+    print ('Billable event due to ' +  variable.get()) #gui button.
+    master.destroy()
 
 button = Button(master, text="OK", command=ok)
-
 button.pack()
 master.wait_window(button)
 
-
+master.mainloop()
 
 dateCell = time.strftime("%Y/%m/%d")
 
@@ -134,6 +132,6 @@ wb.SaveAs(saveFileNoSlash)
 
 excel.Application.Quit()
 
-master.mainloop()
-sys.exit()
+
+exit()
 
