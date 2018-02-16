@@ -9,12 +9,7 @@ import sys
 #--------FUNTIONS---------
 #Updates cells in excel workbook
 def updateWb(file):
-
-    __location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
-    excel = win32.gencache.EnsureDispatch('Excel.Application')
-
+    
     wb = excel.Workbooks.Open(os.path.join(__location__, file))
 
     excel.Visible = False
@@ -29,12 +24,17 @@ def updateWb(file):
 
     excel.Application.Quit()
 
+
+
 def finished():
-    customerCell = str(customerInput.get())
-    locationCell = str(locationInput.get())
-    nameCell = str(nameInput.get())
-    yield locationCell , customerCell , nameCell
-    window.destroy()
+    global customerCell
+    customerCell = customerInput.get()
+    global locationCell 
+    locationCell = locationInput.get()
+    global nameCell
+    nameCell = nameInput.get()
+
+    window.destroy()    
 
 #--------GUI--------
 window = tk.Tk()
@@ -47,13 +47,11 @@ customer.grid(column=0, row=0)
 customerInput = tk.Entry()
 customerInput.grid(column=0, row=1, pady=35)
 
-
 #---INPUT BOX LOCATION---
 location = tk.Label(text= 'Enter Location')
 location.grid(column=0, row=2)
 locationInput = tk.Entry()
 locationInput.grid(column=0, row=3, pady=35)
-
 
 #---INPUT BOX NAME---
 name = tk.Label(text= 'Enter Service Technicians Name')
@@ -61,14 +59,16 @@ name.grid(column=0, row=4)
 nameInput = tk.Entry()
 nameInput.grid(column=0, row=5, pady=35)
 
-
 #---BUTTON---
 button_ok = tk.Button(text='OK', command=finished)
 button_ok.grid(column=0, row=6, ipadx=15, ipady=10)
 
 window.mainloop()
 
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
+excel = win32.gencache.EnsureDispatch('Excel.Application')
 
 fileNames = ['oof', 'misuse', 'estop','frozen','damage','ebrake','ui']
 for file in fileNames:
